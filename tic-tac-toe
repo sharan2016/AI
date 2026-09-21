@@ -1,0 +1,49 @@
+import random
+
+board = ['O', ' ', 'X', 
+         'X', ' ', ' ',
+         'X', 'O', 'O']
+
+def print_board():
+    print(board[0] + ' | ' + board[1] + ' | ' + board[2])
+    print('---------')
+    print(board[3] + ' | ' + board[4] + ' | ' + board[5])
+    print('---------')
+    print(board[6] + ' | ' + board[7] + ' | ' + board[8])
+
+def check_win(p):
+    wins = [(0,1,2), (3,4,5), (6,7,8),
+            (0,3,6), (1,4,7), (2,5,8),
+            (0,4,8), (2,4,6)]
+
+    return any(board[a] == board[b] == board[c] == p for a,b,c in wins)
+
+while True:
+    print_board()
+
+    move = int(input("Choose a position (1-9): ")) - 1
+    if board[move] != ' ':
+        print("That spot is taken!")
+        continue
+
+    board[move] = 'X'
+
+    if check_win('X'):
+        print_board()
+        print("You win!")
+        break
+
+    if ' ' not in board:
+        print_board()
+        print("Draw!")
+        break
+
+
+    empty = [i for i in range(9) if board[i] == ' ']
+    ai_move = random.choice(empty)
+    board[ai_move] = 'O'
+
+    if check_win('O'):
+        print_board()
+        print("AI wins!")
+        break
